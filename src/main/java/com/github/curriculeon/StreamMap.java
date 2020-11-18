@@ -9,11 +9,13 @@ import java.util.stream.Stream;
 public class StreamMap {
     /**
      * Section 8.3
+     *
      * @param someWord - word to convert to Stream<String>
      * @return - a Stream of single characters
      */ //TODO
     public static Stream<String> letters(String someWord) {
-        return Arrays.asList(someWord.split("")).stream();
+        String[] words = someWord.split("");
+        return Arrays.asList(words).stream();
     }
 
     /**
@@ -21,10 +23,7 @@ public class StreamMap {
      * @return - a Stream of several Streams of single characters
      */ //TODO
     public static Stream<Stream<String>> wordsMap(String... someWords) {
-        return Arrays
-                .asList(someWords)
-                .stream()
-                .map(str -> letters(str));
+        return Arrays.asList(someWords).stream().map(word -> letters(word));
     }
 
     /**
@@ -32,9 +31,6 @@ public class StreamMap {
      * @return - a Stream of several Streams of single characters
      */ //TODO
     public static Stream<String> wordsFlatMap(String... stringArray) {
-        return Arrays
-                .asList(stringArray)
-                .stream()
-                .flatMap(str -> letters(str));
+        return Arrays.asList(stringArray).stream().flatMap(word -> letters(word));
     }
 }

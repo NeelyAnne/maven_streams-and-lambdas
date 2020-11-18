@@ -17,19 +17,20 @@ import java.util.stream.Stream;
 public class StreamFilter {
     private final Stream<Person> personStream;
     public final String startingCharacter;
+    private Predicate<Person> findName;
 
     /**
      * No arg constructor
      */ //TODO - construct person stream of 100 person objects; startingCharacter is a random capital letter
     public StreamFilter() {
         this(Stream
-                .generate(new PersonFactory()::createRandomPerson)
-                .limit(100),
+                        .generate(new PersonFactory()::createRandomPerson)
+                        .limit(100),
                 RandomUtils.createCharacter('A', 'Z'));
     }
 
     /**
-     * @param people - Array of person objects
+     * @param people            - Array of person objects
      * @param startingCharacter - character to filter by
      */ //TODO
     public StreamFilter(Person[] people, Character startingCharacter) {
@@ -37,7 +38,7 @@ public class StreamFilter {
     }
 
     /**
-     * @param people - List of person objects
+     * @param people            - List of person objects
      * @param startingCharacter - character to filter by
      */ //TODO
     public StreamFilter(List<Person> people, Character startingCharacter) {
@@ -46,7 +47,7 @@ public class StreamFilter {
 
 
     /**
-     * @param people - Stream of person objects
+     * @param people            - Stream of person objects
      * @param startingCharacter - character to filter by
      */ // I took care of the easy constructor (͡° ͜ʖ ͡°)
     public StreamFilter(Stream<Person> people, Character startingCharacter) {
@@ -57,18 +58,20 @@ public class StreamFilter {
 
     /**
      * Using multi-line lambda syntax
+     *
      * @return a list of person object whose name starts with `this.startingCharacter`
      */ //TODO
     public List<Person> toListMultiLine() {
-        Predicate<Person> filterClause = person -> person.getName().startsWith(this.startingCharacter);
-        Stream<Person> filteredStream = personStream.filter(filterClause);
-        List<Person> filteredList = filteredStream.collect(Collectors.toList());
-        return filteredList;
+        Predicate<Person> personPred = person -> person.getName().startsWith(this.startingCharacter);
+        Stream<Person> stream = personStream.filter(personPred);
+        return stream.collect(Collectors.toList());
+
     }
 
 
     /**
      * Using one-line lambda syntax
+     *
      * @return a list of person objects whose name starts with `this.startingCharacter`
      */ //TODO
     public List<Person> toListOneLine() {
@@ -80,9 +83,11 @@ public class StreamFilter {
 
     /**
      * Using one-line lambda syntax
+     *
      * @return an array of person object whose name starts with `this.startingCharacter`
      */ //TODO
     public Person[] toArrayOneLine() {
+        Person[] personArray;
         return personStream
                 .filter(person -> person.getName().startsWith(this.startingCharacter))
                 .toArray(Person[]::new);
@@ -91,13 +96,13 @@ public class StreamFilter {
 
     /**
      * Using multi-line lambda syntax
+     *
      * @return an array of person object whose name starts with `this.startingCharacter`
      */ //TODO
     public Person[] toArrayMultiLine() {
-        Predicate<Person> filterClause = person -> person.getName().startsWith(this.startingCharacter);
-        Stream<Person> filteredStream = personStream.filter(filterClause);
-        Person[] filteredArray= filteredStream.toArray(Person[]::new);
-        return filteredArray;
+        findName = person -> person.getName().startsWith(this.startingCharacter);
+        Stream<Person> makeStream = personStream.filter(findName);
+        return makeStream.toArray(Person[]::new);
     }
 
 }

@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -41,25 +42,6 @@ public class TestUniquelyNamedPersons {
         List<String> expectedList = this.deriveUniqueNames(warehouse);
         Assert.assertEquals(expectedList.toString(), actualList.toString());
     }
-
-    @Test
-    public void testGetFirstNUniquelyNamedPeople() {
-        // : Given
-        Integer valueOfN = 4;
-
-        // when
-        List<String> actual = warehouse
-                .getFirstNUniquelyNamedPeople(valueOfN)
-                .map(Person::getName)
-                .collect(Collectors.toList());
-
-        // then
-        List<String> uniqueNameDerivation = this.deriveUniqueNames(warehouse);
-        List<String> expected = uniqueNameDerivation.subList(0, valueOfN);
-        Assert.assertEquals(expected.toString(), actual.toString());
-    }
-
-
 
     @Test
     public void testGetUniquelyNamedPeopleStartingWith() {

@@ -46,9 +46,9 @@ public final class PersonWarehouse implements Iterable<Person> {
     public Stream<Person> getUniquelyNamedPeople() {
         return people
                 .stream()
-                .filter(person -> Collections.frequency(getNames(), person.getName()) == 1); // white-label people whose name occurs exactly once
+                .distinct()
+                .filter(person -> Collections.frequency(getNames(), person.getName())==1);
     }
-
 
     /**
      * @param character starting character of Person objects' name
@@ -56,7 +56,7 @@ public final class PersonWarehouse implements Iterable<Person> {
      */ //TODO
     public Stream<Person> getUniquelyNamedPeopleStartingWith(Character character) {
         return getUniquelyNamedPeople()
-                .filter(person -> person.getName().startsWith(character.toString()));
+                .filter( person -> person.getName().startsWith(character.toString()));
     }
 
     /**
@@ -64,7 +64,8 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return a Stream of respective
      */ //TODO
     public Stream<Person> getFirstNUniquelyNamedPeople(int n) {
-        return null;
+        return getUniquelyNamedPeople()
+                .limit(n);
     }
 
     /**
@@ -81,7 +82,9 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return Stream of Stream of Aliases
      */ // TODO
     public Stream<Stream<String>> getNestedAliases() {
-        return null;
+        return people
+                .stream()
+                .map(person -> Stream.of(person.getAliases()));
     }
 
 
@@ -89,7 +92,9 @@ public final class PersonWarehouse implements Iterable<Person> {
      * @return Stream of all Aliases
      */ // TODO
     public Stream<String> getAllAliases() {
-        return null;
+        return people
+                .stream()
+                .flatMap(person -> Stream.of(person.getAliases()));
     }
 
     // DO NOT MODIFY
